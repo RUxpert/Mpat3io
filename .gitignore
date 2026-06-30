@@ -21,7 +21,6 @@
 /storage/*.key
 /storage/pail
 /vendor
-/config/midtrans.php
 _ide_helper.php
 Homestead.json
 Homestead.yaml
