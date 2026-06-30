@@ -39,7 +39,7 @@ class VillaController extends Controller
         $tgl_out = $request->tgl_check_out;
         $hari    = (int) ceil((strtotime($tgl_out) - strtotime($tgl_in)) / 86400);
 
-        // Check availability – no overlapping confirmed/pending orders
+        // Cek ketersediaan — tidak boleh ada order overlap selain cancelled/expired/refunded
         $conflict = Order::where('villa_id', $villa->id)
             ->whereNotIn('status_pesanan', ['cancelled', 'expired', 'refunded'])
             ->where(function ($q) use ($tgl_in, $tgl_out) {
@@ -58,11 +58,11 @@ class VillaController extends Controller
             ]);
         }
 
-        $biaya_layanan = 0.15;
-        $subtotal      = $villa->harga * $hari;
-        $total_harga   = $subtotal + ($subtotal * $biaya_layanan);
+        $subtotal    = $villa->harga * $hari;
+        $total_harga = $subtotal + ($subtotal * 0.15);
 
-        Order::create([
+        // Simpan order dan tangkap ID-nya
+        $order = Order::create([
             'tenant_id'      => auth()->id(),
             'villa_id'       => $villa->id,
             'host_id'        => $villa->user_id,
@@ -73,7 +73,9 @@ class VillaController extends Controller
             'status_pesanan' => 'pending',
         ]);
 
-        return redirect()->route('user.riwayat');
+        // Langsung ke halaman detail supaya penyewa bisa bayar sekarang
+        return redirect()->route('user.detail_pesanan', $order->id)
+            ->with('pesan', 'Pesanan berhasil dibuat! Silakan selesaikan pembayaran.');
     }
 
     private function hitungCosine(string $teks1, string $teks2): float

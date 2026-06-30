@@ -199,6 +199,19 @@
         </a>
 
     </main>
+    <nav class="navbar fixed-bottom bg-white border-top py-2 shadow-sm" style="z-index: 1050;">
+        <div class="container d-flex justify-content-around">
+            <a href="{{ route('user.dashboard') }}" class="nav-item-custom">
+                <i class="bi bi-house-fill"></i><span>Beranda</span>
+            </a>
+            <a href="{{ route('user.riwayat') }}" class="nav-item-custom">
+                <i class="bi bi-clock-history"></i><span>Riwayat</span>
+            </a>
+            <a href="{{ route('user.akun') }}" class="nav-item-custom active-nav">
+                <i class="bi bi-person-fill"></i><span>Akun</span>
+            </a>
+        </div>
+    </nav>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 

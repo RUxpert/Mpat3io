@@ -112,7 +112,7 @@
             </div>
             
             <div class="cta-button-container">
-                <a href="{{ url('index/landing_page') }}" class="btn btn-primary btn-lg">Mulai Cari Villa!</a>
+                <a href="{{ route('user.dashboard') }}" class="btn btn-primary btn-lg">Mulai Cari Villa!</a>
             </div>
         </div>
     </section>

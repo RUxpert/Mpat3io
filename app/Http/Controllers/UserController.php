@@ -55,7 +55,7 @@ class UserController extends Controller
     public function detailPesanan(Order $order)
     {
         abort_if($order->tenant_id !== auth()->id(), 403);
-        $detail = $order->load(['villa', 'host']);
+        $detail = $order->load(['villa', 'host', 'tenant']);
         return view('villa.riwayat', compact('detail'));
     }
 
@@ -64,6 +64,7 @@ class UserController extends Controller
         $request->validate(['id_pesanan' => 'required|exists:orders,id']);
         $order = Order::findOrFail($request->id_pesanan);
         abort_if($order->tenant_id !== auth()->id(), 403);
+        abort_if(!in_array($order->status_pesanan, ['pending']), 422);
         $order->update(['status_pesanan' => 'cancelled']);
         return redirect()->route('user.riwayat')->with('pesan', 'Pesanan berhasil dibatalkan.');
     }
@@ -72,7 +73,7 @@ class UserController extends Controller
     {
         abort_if($order->tenant_id !== auth()->id(), 403);
         $order->update(['status_pesanan' => 'confirm']);
-        return redirect()->route('user.riwayat')->with('pesan', 'Pembayaran Berhasil! Status Villa Confirm.');
+        return redirect()->route('user.riwayat')->with('pesan', 'Pembayaran berhasil dikonfirmasi!');
     }
 
     public function faq()       { return view('user.dashboard.faq'); }

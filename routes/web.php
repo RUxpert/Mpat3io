@@ -37,6 +37,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard/sk', [UserController::class, 'sk'])->name('sk');
         Route::get('/dashboard/contact', [UserController::class, 'contact'])->name('contact');
         Route::get('/dashboard/kebijakan', [UserController::class, 'kebijakan'])->name('kebijakan');
+
+        // Midtrans Snap token endpoint
+        Route::post('/snap-token', [VillaController::class, 'snapToken'])->name('snap_token');
     });
 
     // Mitra (host/admin) routes
