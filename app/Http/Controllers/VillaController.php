@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Villa;
 use App\Models\Order;
+use Midtrans\Config as MidtransConfig;
+use Midtrans\Snap;
 
 class VillaController extends Controller
 {
@@ -76,6 +78,62 @@ class VillaController extends Controller
         // Langsung ke halaman detail supaya penyewa bisa bayar sekarang
         return redirect()->route('user.detail_pesanan', $order->id)
             ->with('pesan', 'Pesanan berhasil dibuat! Silakan selesaikan pembayaran.');
+    }
+
+    public function snapToken(Request $request)
+    {
+        $request->validate([
+            'order_id'    => 'required|exists:orders,id',
+            'gross_amount' => 'required|numeric|min:1000',
+        ]);
+
+        $order = Order::with(['tenant', 'villa'])->findOrFail($request->order_id);
+
+        // Guard: hanya pemilik pesanan
+        abort_if($order->tenant_id !== auth()->id(), 403);
+        // Guard: hanya boleh bayar kalau masih pending
+        if ($order->status_pesanan !== 'pending') {
+            return response()->json(['message' => 'Pesanan tidak dalam status pending.'], 422);
+        }
+
+        // Setup Midtrans
+        MidtransConfig::$serverKey    = config('midtrans.server_key');
+        MidtransConfig::$isProduction = false;
+        MidtransConfig::$isSanitized  = true;
+        MidtransConfig::$is3ds        = true;
+
+        $params = [
+            'transaction_details' => [
+                'order_id'     => 'ORDER-' . $order->id . '-' . time(),
+                'gross_amount' => (int) $request->gross_amount,
+            ],
+            'customer_details' => [
+                'first_name' => $order->tenant->name ?? 'Penyewa',
+                'email'      => $order->tenant->email ?? '',
+                'phone'      => $order->tenant->no_telp ?? '',
+            ],
+            'item_details' => [
+                [
+                    'id'       => 'VILLA-' . $order->villa_id,
+                    'price'    => (int) $order->villa->harga,
+                    'quantity' => max(1, (int) \Carbon\Carbon::parse($order->tgl_check_in)->diffInDays($order->tgl_check_out)),
+                    'name'     => $order->villa->nama_villa ?? 'Villa',
+                ],
+                [
+                    'id'       => 'LAYANAN',
+                    'price'    => (int) ($request->gross_amount - ($order->villa->harga * max(1, (int) \Carbon\Carbon::parse($order->tgl_check_in)->diffInDays($order->tgl_check_out)))),
+                    'quantity' => 1,
+                    'name'     => 'Biaya Layanan (15%)',
+                ],
+            ],
+        ];
+
+        try {
+            $snapToken = Snap::getSnapToken($params);
+            return response()->json(['snap_token' => $snapToken]);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Gagal membuat token: ' . $e->getMessage()], 500);
+        }
     }
 
     private function hitungCosine(string $teks1, string $teks2): float

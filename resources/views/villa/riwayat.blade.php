@@ -173,7 +173,7 @@
             this.disabled = true;
             this.innerText = 'Memuat...';
 
-            fetch('{{ route("snap_token") }}', {
+            fetch('{{ route("user.snap_token") }}', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
