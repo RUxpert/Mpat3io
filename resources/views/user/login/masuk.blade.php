@@ -114,7 +114,7 @@
         <a type="submit" href="{{ url('index/daftar') }}" class="btn btn-primary">DAFTAR</a>
 
         <div class="form-text">
-        <span><a class="link" href="{{ url('index/lupa_password') }}">Lupa Password?</a></span>
+        <span><a class="link" href="{{ route('lupa_password') }}">Lupa Password?</a></span>
         </div>
     </div>
 

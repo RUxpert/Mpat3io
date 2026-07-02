@@ -64,7 +64,12 @@ class UserController extends Controller
         $request->validate(['id_pesanan' => 'required|exists:orders,id']);
         $order = Order::findOrFail($request->id_pesanan);
         abort_if($order->tenant_id !== auth()->id(), 403);
-        abort_if(!in_array($order->status_pesanan, ['pending']), 422);
+
+        if ($order->status_pesanan !== 'pending') {
+            return redirect()->route('user.detail_pesanan', $order->id)
+                ->with('pesan_error', 'Pesanan tidak dapat dibatalkan karena statusnya sudah ' . $order->status_pesanan . '.');
+        }
+
         $order->update(['status_pesanan' => 'cancelled']);
         return redirect()->route('user.riwayat')->with('pesan', 'Pesanan berhasil dibatalkan.');
     }

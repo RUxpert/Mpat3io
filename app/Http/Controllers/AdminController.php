@@ -100,15 +100,17 @@ class AdminController extends Controller
     {
         $request->validate([
             'id_pesanan'     => 'required|exists:orders,id',
-            'tgl_check_in'   => 'required|date',
-            'tgl_check_out'  => 'required|date|after:tgl_check_in',
             'status_pesanan' => 'required|in:pending,confirm,checkin,checkout,cancelled,expired,refund requested,refunded,no show',
         ]);
 
         $order = Order::findOrFail($request->id_pesanan);
-        $order->update($request->only(['tgl_check_in', 'tgl_check_out', 'status_pesanan']));
 
-        return redirect()->route('admin.pesanan')->with('pesan_sukses', 'Data pesanan berhasil diperbarui.');
+        // Guard: hanya host pemilik order yang bisa update
+        abort_if($order->host_id !== auth()->id(), 403);
+
+        $order->update(['status_pesanan' => $request->status_pesanan]);
+
+        return redirect()->route('admin.pesanan')->with('pesan_sukses', 'Status pesanan berhasil diperbarui.');
     }
 
     public function akun()

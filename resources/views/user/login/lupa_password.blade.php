@@ -74,17 +74,17 @@
 </head>
 <body>
     <div class="container">
-        <h2>Verifikasi Akun</h2>
+        <h2>Lupa Password?</h2>
         <div class="form">
-        <form action="{{ url('user/login/lupa_pass') }}" method="POST">
-            <p>Verifikasi akun yang ingin kamu reset password</p>
-            <div class="mb-3 input-icon">
-                <img src="{{ asset('asset/icon/ic_email.png') }}" class="icon" alt="Email Icon">
-                <input type="email" class="form-control" name="email" placeholder="Masukkan Email" required>
-            </div>
-            
-            <button type="submit" class="btn btn-primary mb-3">Verifikasi</button>
-        </form>
+        <p>Verifikasi akun yang ingin kamu reset password</p>
+        <div class="mb-3 input-icon">
+            <img src="{{ asset('asset/icon/ic_email.png') }}" class="icon" alt="Email Icon">
+            <input type="email" class="form-control" name="email" placeholder="Masukkan Email" disabled>
+        </div>
+        <div class="alert alert-warning text-center mb-3" role="alert">
+            ⚠️ Fitur reset password belum tersedia. Silakan hubungi admin.
+        </div>
+        <a href="{{ route('login') }}" class="btn btn-primary mb-3">Kembali ke Login</a>
         </div>
     </div>
 

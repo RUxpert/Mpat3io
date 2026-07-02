@@ -49,6 +49,20 @@
 
     <main class="container py-5" style="margin-top:-20px;position:relative;z-index:2;">
 
+        @if(session('pesan'))
+            <div class="alert alert-success alert-dismissible fade show mt-3">
+                {{ session('pesan') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+
+        @if(session('pesan_error'))
+            <div class="alert alert-danger alert-dismissible fade show mt-3">
+                {{ session('pesan_error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+
         <div class="card custom-card p-4">
             <h5 class="fw-bold mb-1">{{ $detail->villa->nama_villa ?? '-' }}</h5>
 
