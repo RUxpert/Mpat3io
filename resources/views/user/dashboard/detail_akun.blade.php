@@ -138,9 +138,15 @@
     
     <main class="container">
         
-        {{ session('message'); }}
+        @if(session('message'))
+            <div class="alert alert-success alert-dismissible fade show mt-3">
+                {{ session('message') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
 
-        <form action="{{ url('user/dashboard/update_profil') }}" method="post">
+        <form action="{{ route('user.update_profil') }}" method="POST">
+            @csrf
             
             <div class="profile-item">
                 <span class="profile-label">Profile Villa</span>
@@ -149,12 +155,12 @@
 
             <div class="profile-item">
                 <label for="email" class="profile-label">Email</label>
-                <input type="email" name="email" id="email" class="form-control form-control-custom" value="{{ $penyewa->email_penyewa }}" required>
+                <input type="email" name="email" id="email" class="form-control form-control-custom" value="{{ $penyewa->email }}" required>
             </div>
 
             <div class="profile-item">
                 <label for="nama" class="profile-label">Nama</label>
-                <input type="text" name="nama" id="nama" class="form-control form-control-custom" value="{{ $penyewa->nama_penyewa }}" required pattern="[A-Za-zÀ-ÿ\s]+" title="Nama hanya boleh huruf dan spasi">
+                <input type="text" name="nama" id="nama" class="form-control form-control-custom" value="{{ $penyewa->name }}" required pattern="[A-Za-zÀ-ÿ\s]+" title="Nama hanya boleh huruf dan spasi">
             </div>
 
             <div class="profile-item" style="border-bottom: none;"> 
@@ -165,9 +171,12 @@
 
         </form>
         
-        <a href="{{ url('user/login/logout_penyewa') }}" class="btn btn-logout mb-4">
-            Keluar (Logout)
-        </a>
+        <form action="{{ route('logout') }}" method="POST" class="mb-4">
+            @csrf
+            <button type="submit" class="btn btn-logout">
+                Keluar (Logout)
+            </button>
+        </form>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

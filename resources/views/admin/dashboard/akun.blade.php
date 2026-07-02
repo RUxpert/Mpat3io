@@ -152,10 +152,15 @@
     </div>
 
     <main class="container">
-        {{ session('message'); }}
+        @if(session('message'))
+            <div class="alert alert-success alert-dismissible fade show mt-3">
+                {{ session('message') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
 
-        <form class="needs-validation" action="{{ url('admin/dashboard/update_profil') }}" method="post"
-            novalidate>
+        <form class="needs-validation" action="{{ route('admin.update_profil') }}" method="POST" novalidate>
+            @csrf
 
             <div class="profile-item">
                 <span class="profile-label">Profile Villa</span>
@@ -171,14 +176,14 @@
             <div class="profile-item">
                 <label for="nama_mitra" class="profile-label">Nama Mitra</label>
                 <input type="text" name="nama_mitra" id="nama_mitra" class="form-control form-control-custom"
-                    value="{{ $mitra->nama_mitra }}" pattern="[a-zA-Z\s]+" required>
+                    value="{{ $mitra->name }}" pattern="[a-zA-Z\s]+" required>
                 <div class="invalid-feedback">Nama hanya boleh huruf dan spasi.</div>
             </div>
 
             <div class="profile-item">
                 <label for="email_mitra" class="profile-label">Email</label>
-                <input type="email" name="email_mitra" id="email_mitra" class="form-control form-control-custom"
-                    value="{{ $mitra->email_mitra }}" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" required>
+                <input type="email" name="email" id="email_mitra" class="form-control form-control-custom"
+                    value="{{ $mitra->email }}" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" required>
                 <div class="invalid-feedback">Format email salah atau mengandung spasi.</div>
             </div>
 
@@ -192,9 +197,12 @@
             <button type="submit" class="btn-simpan">Simpan Perubahan</button>
         </form>
 
-        <a href="{{ url('admin/login/logout_mitra') }}" class="btn btn-logout mb-4">
-            Keluar (Logout)
-        </a>
+        <form action="{{ route('logout') }}" method="POST" class="mb-4">
+            @csrf
+            <button type="submit" class="btn btn-logout">
+                Keluar (Logout)
+            </button>
+        </form>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -215,6 +223,23 @@
             })
         })()
     </script>
-</body>
 
+    <nav class="navbar fixed-bottom bg-white border-top py-2 shadow-sm" style="z-index: 1050;">
+        <div class="container d-flex justify-content-around">
+            <a href="{{ route('admin.dashboard') }}" class="nav-item-custom">
+                <i class="bi bi-house-fill"></i><span>Beranda</span>
+            </a>
+            <a href="{{ route('admin.pesanan') }}" class="nav-item-custom">
+                <i class="bi bi-clock-history"></i><span>Pesanan</span>
+            </a>
+            <a href="{{ route('admin.tambah') }}" class="nav-item-custom">
+                <i class="bi bi-plus-square-fill"></i><span>Tambah</span>
+            </a>
+            <a href="{{ route('admin.akun') }}" class="nav-item-custom active-nav">
+                <i class="bi bi-person-fill"></i><span>Akun</span>
+            </a>
+        </div>
+    </nav>
+
+</body>
 </html>

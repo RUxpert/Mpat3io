@@ -98,7 +98,8 @@
     <div class="container">
         <h2>Masuk</h2>
         
-        <form action="{{ url('admin/login/login') }}" method="POST">
+        <form action="{{ route('login.post') }}" method="POST">
+            @csrf
             <div class="mb-3 input-icon">
                 <img src="{{ asset('asset/icon/ic_email.png') }}" class="icon" alt="Email Icon">
                 <input type="email" class="form-control" name="email" placeholder="Masukkan Email" required>
@@ -113,7 +114,7 @@
         <a type="submit" href="{{ url('index/daftar') }}" class="btn btn-primary">DAFTAR</a>
 
         <div class="form-text">
-        <span><a class="link" href="{{ url('admin_index/lupa_password') }}">Lupa Password?</a></span>
+        <span><a class="link" href="{{ route('lupa_password') }}">Lupa Password?</a></span>
         </div> 
     </div>
 

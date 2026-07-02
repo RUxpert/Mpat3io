@@ -115,8 +115,8 @@ class AdminController extends Controller
 
     public function akun()
     {
-        $user = auth()->user();
-        return view('admin.dashboard.akun', compact('user'));
+        $mitra = auth()->user();
+        return view('admin.dashboard.akun', compact('mitra'));
     }
 
     public function updateProfil(Request $request)

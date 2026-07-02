@@ -162,8 +162,8 @@
                 <i class="bi bi-camera"></i>
             </div>
             <div class="profile-details">
-                <h5>{{ $username = $penyewa->nama_penyewa; }}</h5>
-                <a href="{{ url('user/dashboard/detail_akun') }}">LIHAT PROFIL SAYA</a>
+                <h5>{{ $penyewa->name }}</h5>
+                <a href="{{ route('user.detail_akun') }}">LIHAT PROFIL SAYA</a>
             </div>
         </div>
 
@@ -172,31 +172,34 @@
             
             <div class="list-group">
                 
-                <a href="{{ url('user/dashboard/faq') }}" class="list-group-item-custom text-decoration-none text-dark">
+                <a href="{{ route('user.faq') }}" class="list-group-item-custom text-decoration-none text-dark">
                 <img src="{{ asset('asset/icon/ic_ask.png') }}" class="icon pe-3">
                     <span>FAQ (Pertanyaan Umum)</span>
                 </a>
                 
-                <a href="{{ url('user/dashboard/contact') }}" class="list-group-item-custom text-decoration-none text-dark">
+                <a href="{{ route('user.contact') }}" class="list-group-item-custom text-decoration-none text-dark">
                 <img src="{{ asset('asset/icon/ic_msg.png') }}" class="icon pe-3">
                     <span>Hubungi Kami</span>
                 </a>
                 
-                <a href="{{ url('user/dashboard/sk') }}" class="list-group-item-custom text-decoration-none text-dark">
+                <a href="{{ route('user.sk') }}" class="list-group-item-custom text-decoration-none text-dark">
                 <img src="{{ asset('asset/icon/ic_list.png') }}" class="icon pe-3">
-                    <span>Syarat & Ketentuan</span>
+                    <span>Syarat &amp; Ketentuan</span>
                 </a>
                 
-                <a href="{{ url('user/dashboard/kebijakan') }}" class="list-group-item-custom text-decoration-none text-dark">
+                <a href="{{ route('user.kebijakan') }}" class="list-group-item-custom text-decoration-none text-dark">
                 <img src="{{ asset('asset/icon/ic_pass.png') }}" class="icon pe-3">
                     <span>Kebijakan Privasi</span>
                 </a>
             </div>
         </div>
         
-        <a href="{{ url('user/login/logout_penyewa') }}" class="btn btn-logout btn-lg mb-4">
-            Keluar (Logout)
-        </a>
+        <form action="{{ route('logout') }}" method="POST" class="mb-4">
+            @csrf
+            <button type="submit" class="btn btn-logout btn-lg w-100">
+                Keluar (Logout)
+            </button>
+        </form>
 
     </main>
     <nav class="navbar fixed-bottom bg-white border-top py-2 shadow-sm" style="z-index: 1050;">

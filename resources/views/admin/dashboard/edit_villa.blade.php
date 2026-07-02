@@ -286,6 +286,24 @@
             });
         });
     </script>
+
+    <nav class="navbar fixed-bottom bg-white border-top py-2 shadow-sm" style="z-index: 1050;">
+        <div class="container d-flex justify-content-around">
+            <a href="{{ route('admin.dashboard') }}" class="nav-item-custom active-nav">
+                <i class="bi bi-house-fill"></i><span>Beranda</span>
+            </a>
+            <a href="{{ route('admin.pesanan') }}" class="nav-item-custom">
+                <i class="bi bi-clock-history"></i><span>Pesanan</span>
+            </a>
+            <a href="{{ route('admin.tambah') }}" class="nav-item-custom">
+                <i class="bi bi-plus-square-fill"></i><span>Tambah</span>
+            </a>
+            <a href="{{ route('admin.akun') }}" class="nav-item-custom">
+                <i class="bi bi-person-fill"></i><span>Akun</span>
+            </a>
+        </div>
+    </nav>
+
 </body>
 
 </html>

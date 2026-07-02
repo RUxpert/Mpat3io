@@ -18,7 +18,7 @@ Route::get('/index/masuk', [AuthController::class, 'loginForm'])->name('login');
 Route::post('/index/masuk', [AuthController::class, 'login'])->name('login.post');
 Route::get('/index/daftar', [AuthController::class, 'registerForm'])->name('register');
 Route::post('/index/daftar', [AuthController::class, 'register'])->name('register.post');
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/index/lupa_password', fn() => view('user.login.lupa_password'))->name('lupa_password');
 
 // --- Authenticated ---

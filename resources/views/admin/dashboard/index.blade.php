@@ -136,7 +136,7 @@
         @if(!empty($villa))
             @foreach($villa as $villa_detail)
                 <div class="col">
-                    <a href="{{ url('admin/dashboard/edit/'. $villa_detail['id_villa']) }}" class="card-link">
+                    <a href="{{ route('admin.edit', $villa_detail['id']) }}" class="card-link">
                         <div class="card card-villa p-1" style="background-color:#FFE8D6;">
                             <img src="{{ url($villa_detail['gambar']) }}" class="card-img-top">
                             <div class="card-body p-3">
@@ -161,6 +161,23 @@
         @endif
     </div>
 </main>
+
+    <nav class="navbar fixed-bottom bg-white border-top py-2 shadow-sm" style="z-index: 1050;">
+        <div class="container d-flex justify-content-around">
+            <a href="{{ route('admin.dashboard') }}" class="nav-item-custom active-nav">
+                <i class="bi bi-house-fill"></i><span>Beranda</span>
+            </a>
+            <a href="{{ route('admin.pesanan') }}" class="nav-item-custom">
+                <i class="bi bi-clock-history"></i><span>Pesanan</span>
+            </a>
+            <a href="{{ route('admin.tambah') }}" class="nav-item-custom">
+                <i class="bi bi-plus-square-fill"></i><span>Tambah</span>
+            </a>
+            <a href="{{ route('admin.akun') }}" class="nav-item-custom">
+                <i class="bi bi-person-fill"></i><span>Akun</span>
+            </a>
+        </div>
+    </nav>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>

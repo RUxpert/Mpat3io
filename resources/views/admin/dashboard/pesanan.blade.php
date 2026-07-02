@@ -114,7 +114,7 @@
                                     <p class="card-text mb-1"><small class="text-muted">Status: <span class="badge bg-success">{{ $p->status_pesanan }}</span></small></p>
                                     <p class="card-text mb-1"><small>Total Bayar: <span class="fw-bolder"> Rp{{ number_format($p->total_harga, 0, ',', '.') }}</span></small></p>
                                     <p class="card-text mb-1"><small class="text-muted">Tanggal Pesanan: {{ $p->tgl_pesanan }}</small></p>
-                                    <a class="btn btn-sm text-center-header" href="{{ url('admin/dashboard/detail_admin/'.$p->id_pesanan) }}" style="background-color:#FF6B35; margin-top: 5px; font-size: 0.8rem; padding: .25rem .5rem;">Lihat Detail</a>
+                                    <a class="btn btn-sm text-center-header" href="{{ route('admin.pesanan') }}" style="background-color:#FF6B35; margin-top: 5px; font-size: 0.8rem; padding: .25rem .5rem;">Lihat Detail</a>
                                 </div>
                             </div>
                         </div>
@@ -127,6 +127,24 @@
             @endif
         </div>
     </main>
+
+    <nav class="navbar fixed-bottom bg-white border-top py-2 shadow-sm" style="z-index: 1050;">
+        <div class="container d-flex justify-content-around">
+            <a href="{{ route('admin.dashboard') }}" class="nav-item-custom">
+                <i class="bi bi-house-fill"></i><span>Beranda</span>
+            </a>
+            <a href="{{ route('admin.pesanan') }}" class="nav-item-custom active-nav">
+                <i class="bi bi-clock-history"></i><span>Pesanan</span>
+            </a>
+            <a href="{{ route('admin.tambah') }}" class="nav-item-custom">
+                <i class="bi bi-plus-square-fill"></i><span>Tambah</span>
+            </a>
+            <a href="{{ route('admin.akun') }}" class="nav-item-custom">
+                <i class="bi bi-person-fill"></i><span>Akun</span>
+            </a>
+        </div>
+    </nav>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 </body>
