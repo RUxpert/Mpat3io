@@ -136,15 +136,15 @@
         @if(!empty($villa))
             @foreach($villa as $villa_detail)
                 <div class="col">
-                    <a href="{{ route('admin.edit', $villa_detail['id']) }}" class="card-link">
+                    <a href="{{ route('admin.edit', $villa_detail->id) }}" class="card-link">
                         <div class="card card-villa p-1" style="background-color:#FFE8D6;">
-                            <img src="{{ url($villa_detail['gambar']) }}" class="card-img-top">
+                            <img src="{{ $villa_detail->gambar_url }}" class="card-img-top">
                             <div class="card-body p-3">
                                 <h5 class="card-title fw-bold mb-1 text-truncate">
-                                    {{ $villa_detail['nama_villa']; }}
+                                    {{ $villa_detail->nama_villa }}
                                 </h5>
                                 <p class="card-text fw-bolder text-primary-orange">
-                                    Rp {{ number_format($villa_detail['harga'], 0, ',', '.'); }}
+                                    Rp {{ number_format($villa_detail->harga, 0, ',', '.') }}
                                 </p>
                             </div>
                         </div>

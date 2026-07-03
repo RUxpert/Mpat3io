@@ -100,21 +100,41 @@
     </div>
     
     <main class="container-md">
+        @if(session('pesan_sukses'))
+            <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                <i class="bi bi-check-circle-fill me-2"></i>{{ session('pesan_sukses') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+
         <div id="history-list" class="mt-3">
-            @if(!empty($pesanan))
+            @if(!empty($pesanan) && count($pesanan) > 0)
                 @foreach($pesanan as $p)
                     <div class="card card-villa" style="background-color:#FFFCFA;">
                         <div class="row g-0">
                             <div class="col-4 col-md-2">
-                                <img src="{{ url($p->gambar) }}"  class="img-fluid rounded-start"  style="height:100%; object-fit: cover; border-radius: 15px 0 0 15px;" alt="Villa">
+                                <img src="{{ $p->villa ? $p->villa->gambar_url : asset('asset/background/gambarvilla.png') }}"  class="img-fluid rounded-start"  style="height:100%; min-height: 140px; object-fit: cover; border-radius: 15px 0 0 15px;" alt="Villa">
                             </div>
                             <div class="col-8 col-md-10">
                                 <div class="card-body history-card-body" style="background-color:#FFFCFA;">
-                                    <h5 class="card-title fw-bold mb-1 text-primary-orange" style="font-size: 1.1rem;">{{ $p->nama_villa }}</h5>
-                                    <p class="card-text mb-1"><small class="text-muted">Status: <span class="badge bg-success">{{ $p->status_pesanan }}</span></small></p>
-                                    <p class="card-text mb-1"><small>Total Bayar: <span class="fw-bolder"> Rp{{ number_format($p->total_harga, 0, ',', '.') }}</span></small></p>
+                                    <h5 class="card-title fw-bold mb-1 text-primary-orange" style="font-size: 1.1rem;">{{ $p->villa->nama_villa ?? 'Villa' }}</h5>
+                                    <p class="card-text mb-1"><small class="text-muted">Penyewa: <span class="fw-bold">{{ $p->tenant->name ?? '-' }}</span> ({{ $p->tenant->no_telp ?? '-' }})</small></p>
+                                    <p class="card-text mb-1"><small class="text-muted">Tanggal: {{ \Carbon\Carbon::parse($p->tgl_check_in)->format('d M Y') }} s/d {{ \Carbon\Carbon::parse($p->tgl_check_out)->format('d M Y') }}</small></p>
+                                    <p class="card-text mb-1"><small>Total Bayar: <span class="fw-bolder text-success"> Rp{{ number_format($p->total_harga, 0, ',', '.') }}</span></small></p>
                                     <p class="card-text mb-1"><small class="text-muted">Tanggal Pesanan: {{ $p->tgl_pesanan }}</small></p>
-                                    <a class="btn btn-sm text-center-header" href="{{ route('admin.pesanan') }}" style="background-color:#FF6B35; margin-top: 5px; font-size: 0.8rem; padding: .25rem .5rem;">Lihat Detail</a>
+                                    
+                                    <form action="{{ route('admin.update_order') }}" method="POST" class="d-flex align-items-center mt-2 gap-2">
+                                        @csrf
+                                        <input type="hidden" name="id_pesanan" value="{{ $p->id }}">
+                                        <select name="status_pesanan" class="form-select form-select-sm" style="width: auto; max-width: 150px;">
+                                            <option value="pending" {{ $p->status_pesanan == 'pending' ? 'selected' : '' }}>Pending</option>
+                                            <option value="confirm" {{ $p->status_pesanan == 'confirm' ? 'selected' : '' }}>Confirm</option>
+                                            <option value="checkin" {{ $p->status_pesanan == 'checkin' ? 'selected' : '' }}>Checkin</option>
+                                            <option value="checkout" {{ $p->status_pesanan == 'checkout' ? 'selected' : '' }}>Checkout</option>
+                                            <option value="cancelled" {{ $p->status_pesanan == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                                        </select>
+                                        <button type="submit" class="btn btn-sm text-white px-3" style="background-color: #FF6B35;">Update Status</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

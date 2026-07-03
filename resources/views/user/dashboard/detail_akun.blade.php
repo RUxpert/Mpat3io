@@ -140,7 +140,16 @@
         
         @if(session('message'))
             <div class="alert alert-success alert-dismissible fade show mt-3">
-                {{ session('message') }}
+                <i class="bi bi-check-circle-fill me-2"></i>{{ session('message') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+        @if($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show mt-3">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                @foreach($errors->all() as $error)
+                    <div>{{ $error }}</div>
+                @endforeach
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         @endif
@@ -149,8 +158,7 @@
             @csrf
             
             <div class="profile-item">
-                <span class="profile-label">Profile Villa</span>
-                <button type="submit" class="link-ubah">Ubah</button>
+                <span class="profile-label">Profil Saya</span>
             </div>
 
             <div class="profile-item">
@@ -165,9 +173,11 @@
 
             <div class="profile-item" style="border-bottom: none;"> 
                 <label for="telp" class="profile-label">Nomor Telepon</label>
-                <input type="tel" name="telp" pattern="^08[0-9]{8,11}$" title="Masukkan nomor HP Indonesia (contoh: 081234567890)" id="telp" class="form-control form-control-custom" value="{{ $penyewa->no_telp }}" required>
+                <input type="tel" name="telp" pattern="^08[0-9]{8,11}$" title="Masukkan nomor HP Indonesia (contoh: 081234567890)" id="telp" class="form-control form-control-custom" value="{{ $penyewa->no_telp }}">
             </div>
 
+
+            <button type="submit" class="btn-simpan mt-3">Simpan Perubahan</button>
 
         </form>
         

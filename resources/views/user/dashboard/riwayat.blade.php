@@ -51,7 +51,7 @@
 
                         <div class="col-4 col-sm-3 col-md-2">
                             <img
-                                src="{{ $p->villa && $p->villa->gambar ? asset('storage/' . $p->villa->gambar) : asset('asset/background/gambarvilla.png') }}"
+                                src="{{ $p->villa ? $p->villa->gambar_url : asset('asset/background/gambarvilla.png') }}"
                                 class="img-history"
                                 alt="{{ $p->villa->nama_villa ?? 'Villa' }}"
                             >

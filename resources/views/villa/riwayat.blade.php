@@ -39,7 +39,7 @@
     @endphp
 
     <header class="header-image-container">
-        <img src="{{ $detail->villa && $detail->villa->gambar ? asset('storage/' . $detail->villa->gambar) : asset('asset/background/gambarvilla.png') }}"
+        <img src="{{ $detail->villa ? $detail->villa->gambar_url : asset('asset/background/gambarvilla.png') }}"
             alt="{{ $detail->villa->nama_villa ?? 'Villa' }}" class="header-bg">
         <div class="header-overlay">
             <h1 class="header-title-script">{{ $detail->villa->nama_villa ?? 'Villa' }}</h1>

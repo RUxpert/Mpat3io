@@ -169,7 +169,7 @@
             <div class="profile-item">
                 <label for="username" class="profile-label">Username</label>
                 <input type="text" name="username" id="username" class="form-control form-control-custom"
-                    value="{{ $mitra->username }}" pattern="[a-zA-Z0-9]+" required>
+                    value="{{ $mitra->username }}" pattern="[a-zA-Z0-9]*">
                 <div class="invalid-feedback">Username hanya boleh huruf dan angka (tanpa spasi/simbol).</div>
             </div>
 
@@ -190,7 +190,7 @@
             <div class="profile-item" style="border-bottom: none;">
                 <label for="alamat" class="profile-label">Alamat</label>
                 <input type="text" name="alamat" id="alamat" class="form-control form-control-custom"
-                    value="{{ $mitra->alamat }}" pattern="[a-zA-Z0-9\s\.,\-\/]+" required>
+                    value="{{ $mitra->alamat }}" pattern="[a-zA-Z0-9\s\.,\-\/]*">
                 <div class="invalid-feedback">Alamat mengandung karakter yang tidak diizinkan.</div>
             </div>
 

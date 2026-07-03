@@ -43,7 +43,7 @@
         {{-- Hero banner menggunakan gambar villa itu sendiri --}}
         <div class="hero-container">
             <img
-                src="{{ $villa->gambar ? asset('storage/' . $villa->gambar) : asset('asset/background/gambarvilla.png') }}"
+                src="{{ $villa->gambar_url }}"
                 class="hero-img"
                 alt="{{ $villa->nama_villa }}"
             >
@@ -58,7 +58,7 @@
                 <div class="row align-items-center g-4">
                     <div class="col-md-5 col-lg-4">
                         <img
-                            src="{{ $villa->gambar ? asset('storage/' . $villa->gambar) : asset('asset/background/gambarvilla.png') }}"
+                            src="{{ $villa->gambar_url }}"
                             class="info-img-detail"
                             alt="{{ $villa->nama_villa }}"
                         >
@@ -124,7 +124,7 @@
                         <a href="{{ route('villa.detail', $rek->id) }}" class="text-decoration-none text-dark">
                             <div class="card card-villa h-100 shadow-sm border-0">
                                 <img
-                                    src="{{ $rek->gambar ? asset('storage/' . $rek->gambar) : asset('asset/background/gambarvilla.png') }}"
+                                    src="{{ $rek->gambar_url }}"
                                     class="card-img-top"
                                     alt="{{ $rek->nama_villa }}"
                                 >

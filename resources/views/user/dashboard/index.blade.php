@@ -108,7 +108,7 @@
                     <a href="{{ route('villa.detail', $v->id) }}" class="card-link">
                         <div class="card card-villa p-1" style="background-color:#FFE8D6;">
                             <img
-                                src="{{ $v->gambar ? asset('storage/' . $v->gambar) : asset('asset/background/gambarvilla.png') }}"
+                                src="{{ $v->gambar_url }}"
                                 class="card-img-top"
                                 alt="{{ $v->nama_villa }}"
                             >

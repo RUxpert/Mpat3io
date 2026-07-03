@@ -11,8 +11,8 @@ class AdminController extends Controller
 {
     public function index()
     {
-        $villas = auth()->user()->villas;
-        return view('admin.dashboard.index', compact('villas'));
+        $villa = auth()->user()->villas;
+        return view('admin.dashboard.index', compact('villa'));
     }
 
     public function tambah()
