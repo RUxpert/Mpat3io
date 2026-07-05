@@ -79,19 +79,21 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-12 col-md-8 col-lg-6">
-                    {{-- Search: belum ada route, form dinonaktifkan dulu --}}
-                    <div class="input-group shadow-sm">
-                        <input
-                            type="text"
-                            class="form-control py-3 rounded-start-3 border-0 search-input-bg"
-                            placeholder="Temukan villa nyamanmu..."
-                            aria-label="Cari villa"
-                            disabled
-                        >
-                        <button class="btn search-input-bg rounded-end-3 border-0 px-4" type="button" disabled>
-                            <i class="bi bi-search text-primary-orange fs-5"></i>
-                        </button>
-                    </div>
+                    <form action="{{ route('villa.search') }}" method="GET">
+                        <div class="input-group shadow-sm">
+                            <input
+                                type="text"
+                                name="keyword"
+                                class="form-control py-3 rounded-start-3 border-0 search-input-bg"
+                                placeholder="Temukan villa nyamanmu..."
+                                aria-label="Cari villa"
+                                required
+                            >
+                            <button class="btn search-input-bg rounded-end-3 border-0 px-4" type="submit">
+                                <i class="bi bi-search text-primary-orange fs-5"></i>
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -99,7 +101,18 @@
 
     <main class="container">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h3 class="fw-bold m-0">Rekomendasi Villa</h3>
+            <div>
+                <h3 class="fw-bold m-0">
+                    @if($hasPastOrders)
+                        Rekomendasi Untukmu
+                    @else
+                        Villa Tersedia
+                    @endif
+                </h3>
+                @if($hasPastOrders)
+                    <small class="text-muted">Berdasarkan riwayat pesananmu</small>
+                @endif
+            </div>
         </div>
 
         <div id="villa-grid" class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 g-md-4">

@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Order extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'tenant_id', 'villa_id', 'host_id', 'total_harga', 
         'tgl_check_in', 'tgl_check_out', 'tgl_pesanan', 'status_pesanan'

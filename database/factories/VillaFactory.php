@@ -18,7 +18,12 @@ class VillaFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'user_id' => \App\Models\User::factory(),
+            'harga' => $this->faker->numberBetween(100000, 2000000),
+            'nama_villa' => $this->faker->words(3, true),
+            'deskripsi' => $this->faker->paragraph,
+            'gambar' => 'asset/background/gambarvilla.png',
+            'status_villa' => 'tersedia',
         ];
     }
 }

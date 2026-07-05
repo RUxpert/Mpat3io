@@ -95,7 +95,7 @@ class DashboardTest extends TestCase
             'villa_id'  => $villa->id,
             'status_pesanan' => 'pending',
         ]);
-        $response->assertRedirect(route('user.riwayat'));
+        $response->assertRedirect(route('user.detail_pesanan', 1));
     }
 
     public function test_booking_fails_on_date_conflict()
@@ -142,5 +142,40 @@ class DashboardTest extends TestCase
 
         $this->assertDatabaseHas('orders', ['id' => $order->id, 'status_pesanan' => 'cancelled']);
         $response->assertRedirect(route('user.riwayat'));
+    }
+
+    public function test_penyewa_can_search_villas()
+    {
+        $mitra = $this->mitra();
+        $penyewa = $this->penyewa();
+
+        $villaMatched = Villa::factory()->create([
+            'user_id' => $mitra->id,
+            'nama_villa' => 'Villa Hijau Indah',
+            'deskripsi' => 'Sebuah villa dengan taman yang asri.',
+            'status_villa' => 'tersedia',
+        ]);
+        $villaUnmatched = Villa::factory()->create([
+            'user_id' => $mitra->id,
+            'nama_villa' => 'Villa Biru Laut',
+            'deskripsi' => 'Sebuah villa dekat pantai.',
+            'status_villa' => 'tersedia',
+        ]);
+
+        $response = $this->actingAs($penyewa)->get('/villa/search?keyword=Hijau');
+
+        $response->assertStatus(200);
+        $response->assertSee('Villa Hijau Indah');
+        $response->assertDontSee('Villa Biru Laut');
+    }
+
+    public function test_search_handles_no_villas_found()
+    {
+        $penyewa = $this->penyewa();
+
+        $response = $this->actingAs($penyewa)->get('/villa/search?keyword=Kuning');
+
+        $response->assertStatus(200);
+        $response->assertSee('Tidak Ada Villa Ditemukan');
     }
 }

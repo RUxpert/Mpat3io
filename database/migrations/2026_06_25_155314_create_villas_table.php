@@ -17,7 +17,7 @@ return new class extends Migration
             $table->decimal('harga', 10, 2);
             $table->string('nama_villa');
             $table->text('deskripsi');
-            $table->string('gambar');
+            $table->string('gambar')->nullable();
             $table->enum('status_villa', ['tersedia', 'booked', 'reparasi'])->default('tersedia');
             $table->timestamps();
         });

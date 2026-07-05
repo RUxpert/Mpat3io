@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Villa extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'user_id', 'harga', 'nama_villa', 'deskripsi', 'gambar', 'status_villa'
     ];

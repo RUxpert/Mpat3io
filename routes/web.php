@@ -59,6 +59,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Villa routes (accessible by authenticated users)
     Route::prefix('villa')->name('villa.')->group(function () {
+        Route::get('/search', [VillaController::class, 'search'])->name('search');
         Route::get('/detail/{villa}', [VillaController::class, 'detail'])->name('detail');
         Route::get('/pesan/{villa}', [VillaController::class, 'pesan'])->name('pesan');
         Route::post('/proses_bayar', [VillaController::class, 'prosesBayar'])->name('proses_bayar');

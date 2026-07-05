@@ -10,8 +10,43 @@ class UserController extends Controller
 {
     public function index()
     {
+        $user = auth()->user();
         $villas = Villa::where('status_villa', 'tersedia')->get();
-        return view('user.dashboard.index', compact('villas'));
+
+        // Build smart recommendations based on past orders
+        $pastVillaIds = Order::where('tenant_id', $user->id)
+            ->whereNotIn('status_pesanan', ['cancelled', 'expired'])
+            ->pluck('villa_id')
+            ->unique()
+            ->toArray();
+
+        if (!empty($pastVillaIds)) {
+            // User has history — rank all available villas by cosine similarity to past bookings
+            $pastVillas = Villa::whereIn('id', $pastVillaIds)->get();
+
+            $rekomendasi = $villas
+                ->whereNotIn('id', $pastVillaIds)  // exclude already-booked villas
+                ->map(function ($candidate) use ($pastVillas) {
+                    $maxSimilarity = $pastVillas->map(fn($p) => $this->hitungCosine($p->deskripsi, $candidate->deskripsi))->max();
+                    $candidate->similarity = $maxSimilarity ?? 0;
+                    return $candidate;
+                })
+                ->sortByDesc('similarity')
+                ->values();
+
+            // If all were filtered or list too short, merge with the rest
+            if ($rekomendasi->isEmpty()) {
+                $rekomendasi = $villas;
+            }
+        } else {
+            // No history — show latest available villas
+            $rekomendasi = $villas->sortByDesc('created_at')->values();
+        }
+
+        return view('user.dashboard.index', [
+            'villas' => $rekomendasi,
+            'hasPastOrders' => !empty($pastVillaIds),
+        ]);
     }
 
     public function akun()
@@ -85,4 +120,16 @@ class UserController extends Controller
     public function sk()        { return view('user.dashboard.sk'); }
     public function contact()   { return view('user.dashboard.contact'); }
     public function kebijakan() { return view('user.dashboard.kebijakan'); }
+
+    private function hitungCosine(string $teks1, string $teks2): float
+    {
+        $clean = fn($t) => array_filter(explode(' ', strtolower(preg_replace('/[^a-zA-Z0-9\s]/', '', $t))));
+        $arr1  = $clean($teks1);
+        $arr2  = $clean($teks2);
+
+        if (!$arr1 || !$arr2) return 0;
+
+        $kata_sama = count(array_intersect(array_unique($arr1), array_unique($arr2)));
+        return $kata_sama / sqrt(count($arr1) * count($arr2));
+    }
 }

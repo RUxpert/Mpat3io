@@ -136,6 +136,24 @@ class VillaController extends Controller
         }
     }
 
+    public function search(Request $request)
+    {
+        $keyword = trim($request->get('keyword', ''));
+
+        $query = Villa::where('status_villa', 'tersedia');
+
+        if ($keyword !== '') {
+            $query->where(function ($q) use ($keyword) {
+                $q->where('nama_villa', 'like', '%' . $keyword . '%')
+                  ->orWhere('deskripsi', 'like', '%' . $keyword . '%');
+            });
+        }
+
+        $results = $query->get();
+
+        return view('villa.src', compact('results', 'keyword'));
+    }
+
     private function hitungCosine(string $teks1, string $teks2): float
     {
         $clean = fn($t) => array_filter(explode(' ', strtolower(preg_replace('/[^a-zA-Z0-9\s]/', '', $t))));
